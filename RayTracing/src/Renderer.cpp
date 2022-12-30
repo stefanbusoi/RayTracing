@@ -170,8 +170,6 @@ Renderer::HitPayload Renderer::TraceRay(const Ray& ray)
 
 		// Quadratic formula:
 		// (-b +- sqrt(discriminant)) / 2a
-
-		// float t0 = (-b + glm::sqrt(discriminant)) / (2.0f * a); // Second hit distance (currently unused)
 		float closestT = (-b - glm::sqrt(discriminant)) / (2.0f * a);
 		if (closestT > 0.0f && closestT < hitDistance)
 		{
