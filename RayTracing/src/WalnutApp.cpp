@@ -1,13 +1,12 @@
 #include "Walnut/Application.h"
 #include "Walnut/EntryPoint.h"
+
 #include "Walnut/Image.h"
 #include "Walnut/Timer.h"
 
 #include "Renderer.h"
 #include "Camera.h"
-
 #include <glm/gtc/type_ptr.hpp>
-
 using namespace Walnut;
 
 class ExampleLayer : public Walnut::Layer
@@ -23,15 +22,14 @@ public:
 		Material& blueSphere = m_Scene.Materials.emplace_back();
 		blueSphere.Albedo = { 0.2f, 0.3f, 1.0f };
 		blueSphere.Roughness = 0.1f;
-
 		{
 			Sphere sphere;
-			sphere.Position = { 0.0f, 0.0f, 0.0f };
+			sphere.Position = { 0.0f, 0.0f,0.0f };
 			sphere.Radius = 1.0f;
 			sphere.MaterialIndex = 0;
 			m_Scene.Spheres.push_back(sphere);
 		}
-
+		
 		{
 			Sphere sphere;
 			sphere.Position = { 0.0f, -101.0f, 0.0f };
@@ -39,6 +37,7 @@ public:
 			sphere.MaterialIndex = 1;
 			m_Scene.Spheres.push_back(sphere);
 		}
+		
 	}
 
 	virtual void OnUpdate(float ts) override
@@ -51,11 +50,12 @@ public:
 	{
 		ImGui::Begin("Settings");
 		ImGui::Text("Last render: %.3fms", m_LastRenderTime);
+		ImGui::Text("Framerate: %.1f", 1000/m_LastRenderTime);
+		ImGui::SliderInt("Bounces",&m_Renderer.GetSettings().bounces,0,10 );
 		if (ImGui::Button("Render"))
 		{
 			Render();
 		}
-
 		ImGui::Checkbox("Accumulate", &m_Renderer.GetSettings().Accumulate);
 
 		if (ImGui::Button("Reset"))
@@ -64,15 +64,14 @@ public:
 		ImGui::End();
 
 		ImGui::Begin("Scene");
-		for (size_t i = 0; i < m_Scene.Spheres.size(); i++)
+		ImGui::DragFloat3("Position", glm::value_ptr(m_Renderer.lightDir), 0.1f);
+		for (auto i = 0; i < m_Scene.Spheres.size(); i++)
 		{
 			ImGui::PushID(i);
-
-			Sphere& sphere = m_Scene.Spheres[i];
+			Sphere & sphere = m_Scene.Spheres[i];
 			ImGui::DragFloat3("Position", glm::value_ptr(sphere.Position), 0.1f);
 			ImGui::DragFloat("Radius", &sphere.Radius, 0.1f);
 			ImGui::DragInt("Material", &sphere.MaterialIndex, 1.0f, 0, (int)m_Scene.Materials.size() - 1);
-
 			ImGui::Separator();
 
 			ImGui::PopID();
@@ -81,7 +80,7 @@ public:
 		for (size_t i = 0; i < m_Scene.Materials.size(); i++)
 		{
 			ImGui::PushID(i);
-
+			
 			Material& material = m_Scene.Materials[i];
 			ImGui::ColorEdit3("Albedo", glm::value_ptr(material.Albedo));
 			ImGui::DragFloat("Roughness", &material.Roughness, 0.05f, 0.0f, 1.0f);
@@ -149,4 +148,5 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 		}
 	});
 	return app;
-}
+	
+	}
