@@ -8,6 +8,9 @@ class Camera
 public:
 	Camera(float verticalFOV, float nearClip, float farClip);
 
+	Camera& operator=(Camera&&) = default;
+
+	Camera& operator=(const Camera&) = delete;
 	bool OnUpdate(float ts);
 	void OnResize(uint32_t width, uint32_t height);
 

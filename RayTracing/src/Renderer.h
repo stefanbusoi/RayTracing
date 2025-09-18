@@ -3,52 +3,41 @@
 #include "Walnut/Image.h"
 
 #include "Camera.h"
-#include "Ray.h"
-#include "Scene.h"
-
-#include <memory>
+#include "Utilities.h"
 #include <glm/glm.hpp>
+#include "hittable_list.h"
+
 
 class Renderer
 {
 public:
-	struct Settings
+	static struct Settings
 	{
-		int bounces=5;
+		bool ParalelizePerPixel = true;
+		float gammaCor=2.2;
+		int bounces = 10;
+		color Background = color(0.5f,0.7f,0.9f);
 		bool Accumulate = true;
+		int samples_per_pixel = 1;
 	};
-public: 
+public:
 	Renderer() = default;
 	glm::vec3 lightDir = glm::vec3(-1, -1, -1);
 	void OnResize(uint32_t width, uint32_t height);
-	void Render(const Scene& scene, const Camera& camera);
+	void Render(const Camera& camera, const hittable& world,const Settings& settings);
 
 	std::shared_ptr<Walnut::Image> GetFinalImage() const { return m_FinalImage; }
 
 	void ResetFrameIndex() { m_FrameIndex = 1; }
 	Settings& GetSettings() { return m_Settings; }
+	int GetFrameIndex() { return m_FrameIndex; }
 private:
-	struct HitPayload
-	{
-		float HitDistance;
-		glm::vec3 WorldPosition;
-		glm::vec3 WorldNormal;
-
-		int ObjectIndex;
-	};
-
-	glm::vec4 PerPixel(uint32_t x, uint32_t y); // RayGen
-
-	HitPayload TraceRay(const Ray& ray);
-	HitPayload ClosestHit(const Ray& ray, float hitDistance, int objectIndex);
-	HitPayload Miss(const Ray& ray);
 
 	std::shared_ptr<Walnut::Image> m_FinalImage;
 	Settings m_Settings;
 
 	std::vector<uint32_t> m_ImageHorizontalIter, m_ImageVerticalIter;
 
-	const Scene* m_ActiveScene = nullptr;
 	const Camera* m_ActiveCamera = nullptr;
 
 	uint32_t* m_ImageData = nullptr;

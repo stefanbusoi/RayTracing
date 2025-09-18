@@ -12,7 +12,7 @@ Camera::Camera(float verticalFOV, float nearClip, float farClip)
 	: m_VerticalFOV(verticalFOV), m_NearClip(nearClip), m_FarClip(farClip)
 {
 	m_ForwardDirection = glm::vec3(0, 0, -1);
-	m_Position = glm::vec3(0, 0, 6);
+	m_Position = glm::vec3(0, 2, 6);
 }
 
 bool Camera::OnUpdate(float ts)
@@ -35,7 +35,9 @@ bool Camera::OnUpdate(float ts)
 	glm::vec3 rightDirection = glm::cross(m_ForwardDirection, upDirection);
 
 	float speed = 5.0f;
-
+	if (Input::IsKeyDown(KeyCode::LeftShift) ){
+		speed*=100;
+	}
 	// Movement
 	if (Input::IsKeyDown(KeyCode::W))
 	{
@@ -128,7 +130,7 @@ void Camera::RecalculateRayDirections()
 		for (uint32_t x = 0; x < m_ViewportWidth; x++)
 		{
 			glm::vec2 coord = { (float)x / (float)m_ViewportWidth, (float)y / (float)m_ViewportHeight };
-			coord = coord * 2.0f - 1.0f; // -1 -> 1
+			coord = coord * 2.0f - 1.0f; // -1,1 -> 0,1
 
 			glm::vec4 target = m_InverseProjection * glm::vec4(coord.x, coord.y, 1, 1);
 			glm::vec3 rayDirection = glm::vec3(m_InverseView * glm::vec4(glm::normalize(glm::vec3(target) / target.w), 0)); // World space

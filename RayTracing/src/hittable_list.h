@@ -1,0 +1,26 @@
+#pragma once
+
+#include "hittable.h"
+
+#include <memory>
+#include <vector>
+#include <algorithm>
+
+using std::shared_ptr;
+using std::make_shared;
+
+class hittable_list : public hittable {
+public:
+    hittable_list() {}
+    hittable_list(shared_ptr<hittable> object) { add(object); }
+    
+    void clear() { objects.clear(); }
+    void add(shared_ptr<hittable> object) { objects.push_back(object); }
+
+    virtual bool hit(
+        const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    virtual bool bounding_box(
+         aabb& output_box) const override;
+public:
+    std::vector<shared_ptr<hittable>> objects;
+};
