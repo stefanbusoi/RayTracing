@@ -23,8 +23,8 @@ public:
   
     bool hit(const ray& r, float t_min, float t_max) const {
         
-        register auto t0 = (minimum.x - r.orig.x) * r.invDir.x;
-        register auto t1 = (maximum.x - r.orig.x) * r.invDir.x;
+         auto t0 = (minimum.x - r.orig.x) * r.invDir.x;
+         auto t1 = (maximum.x - r.orig.x) * r.invDir.x;
        
        
         t_min = std::max((r.invDir.x < 0)? t1:t0, t_min);
