@@ -104,7 +104,7 @@ namespace Utils {
 		return a * (1 - t) + b * t;
 	}
 	
-	bool near_zero(glm::vec3 vec) {
+	inline bool near_zero(glm::vec3 vec) {
 		// Return true if the vector is close to zero in all dimensions.
 		const auto s = 1e-8f;
 		return (fabs(vec.x) < s) && (fabs(vec.y) < s) && (fabs(vec.z) < s);

@@ -480,7 +480,9 @@ namespace Walnut {
 		init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 		init_info.Allocator = g_Allocator;
 		init_info.CheckVkResultFn = check_vk_result;
-		ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
+		init_info.RenderPass = wd->RenderPass;
+		ImGui_ImplVulkan_Init(&init_info);
+
 
 		// Load default font
 		ImFontConfig fontConfig;
@@ -502,7 +504,6 @@ namespace Walnut {
 			err = vkBeginCommandBuffer(command_buffer, &begin_info);
 			check_vk_result(err);
 
-			ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
 
 			VkSubmitInfo end_info = {};
 			end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -515,7 +516,6 @@ namespace Walnut {
 
 			err = vkDeviceWaitIdle(g_Device);
 			check_vk_result(err);
-			ImGui_ImplVulkan_DestroyFontUploadObjects();
 		}
 	}
 

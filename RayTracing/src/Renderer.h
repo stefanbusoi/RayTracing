@@ -11,7 +11,7 @@
 class Renderer
 {
 public:
-	static struct Settings
+	struct Settings
 	{
 		bool ParalelizePerPixel = true;
 		float gammaCor=2.2;

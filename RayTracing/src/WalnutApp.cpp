@@ -1,3 +1,4 @@
+#define WL_PLATFORM_WINDOWS
 #include "Walnut/Application.h"
 #include "Walnut/EntryPoint.h"
 
@@ -36,13 +37,13 @@ public:
 					if (choose_mat < 0.3){
 						auto albedo = Rand::random() * Rand::random();
 						sphere_material = make_shared<diffuse_light>(400.f*albedo);
-						world.add(make_shared<sphere>(center, 0.2, sphere_material));
+						world.add(std::make_shared<sphere>(center, 0.2, sphere_material));
 					}
 					else if (choose_mat < 0.8) {
 						// diffuse
 						auto albedo = Rand::random() * Rand::random();
-						sphere_material = make_shared<lambertian>(albedo);
-						world.add(make_shared<sphere>(center, 0.2, sphere_material));
+						sphere_material = std::make_shared<lambertian>(albedo);
+						world.add(std::make_shared<sphere>(center, 0.2, sphere_material));
 					}
 					else if (choose_mat < 0.95) {
 						// metal
@@ -63,8 +64,8 @@ public:
 		auto material1 = make_shared<dielectric>(1.5);
 		world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, material1));
 
-		auto emat = make_shared<lambertian>(make_shared<image_texture>("earthmap.jpg"));
-		world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, emat));
+	//	auto emat = make_shared<lambertian>(make_shared<image_texture>("earthmap.jpg"));
+	//	world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, emat));
 
 		auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
 		world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));

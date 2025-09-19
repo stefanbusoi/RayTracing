@@ -43,7 +43,7 @@ public:
     glm::vec3 offset;
 };
 
-bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
+inline bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     ray moved_r(r.origin() - offset, r.direction());
     if (!ptr->hit(moved_r, t_min, t_max, rec))
         return false;
@@ -54,7 +54,7 @@ bool translate::hit(const ray& r, float t_min, float t_max, hit_record& rec) con
     return true;
 }
 
-bool translate::bounding_box( aabb& output_box) const {
+inline bool translate::bounding_box( aabb& output_box) const {
     if (!ptr->bounding_box( output_box))
         return false;
 

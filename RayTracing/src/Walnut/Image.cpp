@@ -6,7 +6,7 @@
 #include "Application.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "../external/stb_image.h"
 
 namespace Walnut {
 
@@ -173,12 +173,12 @@ namespace Walnut {
 			vkFreeMemory(device, stagingBufferMemory, nullptr);
 		});
 
-		m_Sampler = nullptr;
-		m_ImageView = nullptr;
-		m_Image = nullptr;
-		m_Memory = nullptr;
-		m_StagingBuffer = nullptr;
-		m_StagingBufferMemory = nullptr;
+		m_Sampler = VK_NULL_HANDLE;
+		m_ImageView = VK_NULL_HANDLE;
+		m_Image = VK_NULL_HANDLE;
+		m_Memory = VK_NULL_HANDLE;
+		m_StagingBuffer = VK_NULL_HANDLE;
+		m_StagingBufferMemory = VK_NULL_HANDLE;
 	}
 
 	void Image::SetData(const void* data)

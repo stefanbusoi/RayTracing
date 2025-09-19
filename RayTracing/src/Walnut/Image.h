@@ -34,19 +34,19 @@ namespace Walnut {
 	private:
 		uint32_t m_Width = 0, m_Height = 0;
 
-		VkImage m_Image = nullptr;
-		VkImageView m_ImageView = nullptr;
-		VkDeviceMemory m_Memory = nullptr;
-		VkSampler m_Sampler = nullptr;
+		VkImage m_Image = VK_NULL_HANDLE;
+		VkImageView m_ImageView = VK_NULL_HANDLE;
+		VkDeviceMemory m_Memory = VK_NULL_HANDLE;
+		VkSampler m_Sampler = VK_NULL_HANDLE;
 
 		ImageFormat m_Format = ImageFormat::None;
 
-		VkBuffer m_StagingBuffer = nullptr;
-		VkDeviceMemory m_StagingBufferMemory = nullptr;
+		VkBuffer m_StagingBuffer = VK_NULL_HANDLE;
+		VkDeviceMemory m_StagingBufferMemory = VK_NULL_HANDLE;
 
 		size_t m_AlignedSize = 0;
 
-		VkDescriptorSet m_DescriptorSet = nullptr;
+		VkDescriptorSet m_DescriptorSet = VK_NULL_HANDLE;
 
 		std::string m_Filepath;
 	};
