@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.16)
+include(FetchContent)
+
+project(RayTracing)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE})
+
+
+# sursele proiectului RayTracing
+file(GLOB_RECURSE RAYTRACING_SRC CONFIGURE_DEPENDS
+        "RayTracing/src/*.cpp"
+        "RayTracing/src/*.h"
+)
+
+add_executable(RayTracing ${RAYTRACING_SRC})
+target_include_directories(RayTracing PRIVATE RayTracing/src)
+
+#GLM
+
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY	https://github.com/g-truc/glm.git
+        GIT_TAG 	bf71a834948186f4097caa076cd2663c69a10e1e #refs/tags/1.0.1
+)
+
+FetchContent_MakeAvailable(glm)
+
+target_link_libraries(RayTracing PRIVATE glm::glm)
+include(FetchContent)
+
+FetchContent_Declare(
+        Walnut
+        GIT_REPOSITORY https://github.com/StudioCherno/Walnut.git
+        GIT_TAG master
+)
+FetchContent_MakeAvailable(Walnut)
+
+target_link_libraries(RayTracing PRIVATE Walnut)
