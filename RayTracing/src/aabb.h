@@ -20,7 +20,32 @@ public:
             
         return aabb(small,big);
     }
-  
+    float hitDistance(const ray& r,float t_min,float t_max) const {
+        auto t0 = (minimum.x - r.orig.x) * r.invDir.x;
+        auto t1 = (maximum.x - r.orig.x) * r.invDir.x;
+
+
+        t_min = std::max((r.invDir.x < 0)? t1:t0, t_min);
+        t_max = std::min((r.invDir.x < 0) ? t0:t1, t_max);
+        if (t_max <= t_min)
+            return false;
+        t0 = (minimum.y - r.orig.y) * r.invDir.y;
+        t1 = (maximum.y - r.orig.y) * r.invDir.y;
+
+        t_min = std::max((r.invDir.y < 0) ? t1 : t0, t_min);
+        t_max = std::min((r.invDir.y < 0) ? t0 : t1, t_max);
+        if (t_max <= t_min)
+            return false;
+        t0 = (minimum.z - r.orig.z) * r.invDir.z;
+        t1 = (maximum.z - r.orig.z) * r.invDir.z;
+
+        t_min = std::max((r.invDir.z < 0) ? t1 : t0, t_min);
+        t_max = std::min((r.invDir.z < 0) ? t0 : t1, t_max);
+        if (t_max <= t_min) {
+            return -1;
+        }
+        return t_min;
+    }
     bool hit(const ray& r, float t_min, float t_max) const {
         
          auto t0 = (minimum.x - r.orig.x) * r.invDir.x;
@@ -43,9 +68,9 @@ public:
       
         t_min = std::max((r.invDir.z < 0) ? t1 : t0, t_min);
         t_max = std::min((r.invDir.z < 0) ? t0 : t1, t_max);
-        if (t_max <= t_min)
+        if (t_max <= t_min) {
             return false;
-              
+        }
         return true;
     }
     point3 minimum;

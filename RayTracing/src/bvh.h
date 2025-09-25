@@ -125,10 +125,11 @@ bvh_node::bvh_node(
 bool bvh_node::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     if (!box.hit(r, t_min, t_max))
         return false;
+
     bool hit_left = left->hit(r, t_min, t_max, rec);
     bool hit_right = right->hit(r, t_min, hit_left ? rec.t : t_max, rec);
-
     return hit_left || hit_right;
+
 }
 
 

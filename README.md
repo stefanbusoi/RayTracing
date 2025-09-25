@@ -1,10 +1,74 @@
-# Ray Tracing
+# RayTracing
 
-A brand new educational YouTube series by Cherno. This repository contains all of the code for this project; most episodes will have their own commit you can browse.
+A CPU based path tracing renderer engine implemented in C++  
+This project aims to explore and demonstrate the fundamentals of ray tracing — generating images by tracing the path of light as rays, handling reflections, refractions, shadows, etc.
 
-## Building and running
-Officially supports Windows 10/11 and Visual Studio 2022, with more platforms coming soon. You'll need to have the [Vulkan SDK](https://vulkan.lunarg.com/) installed.
+![img.png](img.png)
+---
 
-1. Clone recursively: `git clone --recursive https://github.com/TheCherno/RayTracing`
-2. Run `scripts/Setup.bat`
-3. Open `RayTracing.sln` and hit F5 (preferably change configuration to Release or Dist first, Debug is slow)
+## Table of Contents
+
+- [Features](#features)
+- [Dependencies & Requirements](#dependencies--requirements)
+- [Installation / Build Instructions](#installation--build-instructions)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Rendering Examples](#rendering-examples)
+- [Performance & Optimization](#performance--optimization)
+- [Future Work](#future-work)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Features
+
+At present, this implementation supports:
+
+- Basic ray–sphere intersection
+- Basic ray-box intersection
+- Phong shading model (ambient, diffuse, specular)
+- Shadows (shadow rays)
+- Reflection & recursive reflection
+- Refraction / transparency (Snell’s law)
+- Multiple light sources
+- environment color
+- Anti-aliasing (supersampling)
+- Acceleration structures (BVH)
+
+You can (or plan to) extend it with:
+
+- Triangle intersections
+- Mesh importing
+- Moving the code to the GPU
+---
+
+## Dependencies & Requirements
+
+- C++ compiler
+- Vulkan SDK
+- CMake
+
+## Installation / Build Instructions
+
+Here’s a sample of how to build and run the project:
+
+```bash
+# Clone the repository
+git clone https://github.com/stefanbusoi/RayTracing.git
+cd RayTracing
+
+# (If using CMake)
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## 3rd party libraries
+
+- Walnut
+- Dear ImGui
+- GLFW
+- stb_image
+- GLM

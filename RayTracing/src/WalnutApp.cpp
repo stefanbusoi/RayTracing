@@ -18,10 +18,10 @@
 #include <glm/gtc/type_ptr.hpp>
 using namespace Walnut;
 
-class ExampleLayer : public Walnut::Layer
+class RayTracingLayer : public Walnut::Layer
 {
 public:
-	hittable_list Random() {
+	static	hittable_list Random() {
 
 		hittable_list world;
 		auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
@@ -72,7 +72,7 @@ public:
 		return world;
 
 	}
-	hittable_list random_scene() {
+	static hittable_list random_scene() {
 		hittable_list boxes1;
 		auto ground = make_shared<lambertian>(color(0.48, 0.83, 0.53));
 		hittable_list objects;
@@ -120,7 +120,7 @@ public:
 
 		hittable_list boxes2;
 		auto white = make_shared<lambertian>(color(1, 1, 1));
-		int ns = 1;
+		int ns = 1000;
 		for (int j = 0; j < ns; j++) {
 			boxes2.add(make_shared<sphere>(Rand::random(0, 165), 10, white));
 		}
@@ -134,21 +134,19 @@ public:
 		return objects;
 	
 	}
-	ExampleLayer()
+	RayTracingLayer()
 		: m_Camera(45.0f, 0.1f, 100.0f)
 	{
+		setWorld(Random());
 
-		m_World = Random();
-		m_WorldRen = &m_World;
 	}
-
-	virtual void OnUpdate(float ts) override
+	void OnUpdate(float ts) override
 	{
 		if (m_Camera.OnUpdate(ts))
 			m_Renderer.ResetFrameIndex();
 	}
 
-	virtual void OnUIRender() override
+	void OnUIRender() override
 	{
 		SettingsUI();
 		 ViewportUI();
@@ -169,7 +167,7 @@ public:
 
 		ImGui::Image(image->GetDescriptorSet(), { (float)image->GetWidth(), (float)image->GetHeight() },
 			ImVec2(0, 1), ImVec2(1, 0));
-	
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 	}
@@ -196,20 +194,24 @@ public:
 	void Render(Renderer::Settings& settings)
 	{
 		Timer timer;
-
 		m_Renderer.OnResize(m_ViewportWidth, m_ViewportHeight);
 		m_Camera.OnResize(m_ViewportWidth, m_ViewportHeight);
-		m_Renderer.Render(m_Camera, bvh_node(m_World), settings);
+		m_Renderer.Render(m_Camera, *m_WorldRen, settings);
 
 		m_LastRenderTime = timer.ElapsedMillis();
 	}
+	void setWorld(hittable_list _world) {
+		m_World=_world;
+		delete m_WorldRen;
+		m_WorldRen=new bvh_node(_world);
+		m_Renderer.ResetFrameIndex();
+	}
 private:
 	Renderer::Settings m_RenderSettings;
-	Renderer::Settings m_FRenderSettings;
 	Renderer m_Renderer;
 	Camera m_Camera;
 	hittable_list m_World;
-	hittable* m_WorldRen;
+	hittable* m_WorldRen=nullptr;
 	uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
 	float m_LastRenderTime = 0.0f;
@@ -221,14 +223,22 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
 	spec.Name = "Ray Tracing";
 
 	Walnut::Application* app = new Walnut::Application(spec);
-	app->PushLayer<ExampleLayer>();
-	app->SetMenubarCallback([app]()
+	std::shared_ptr<RayTracingLayer> exampleLayer=app->PushLayer<RayTracingLayer>();
+	app->SetMenubarCallback([app, exampleLayer]()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
 			if (ImGui::MenuItem("Exit"))
 			{
 				app->Close();
+			}
+			if (ImGui::MenuItem("Map1"))
+			{
+				std::dynamic_pointer_cast<RayTracingLayer>(exampleLayer)->setWorld(RayTracingLayer::random_scene());
+			}
+			if (ImGui::MenuItem("Map2"))
+			{
+				std::dynamic_pointer_cast<RayTracingLayer>(exampleLayer)->setWorld(RayTracingLayer::Random());
 			}
 			ImGui::EndMenu();
 		}

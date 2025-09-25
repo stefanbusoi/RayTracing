@@ -1,10 +1,11 @@
 #include "Renderer.h"
 #include "Utilities.h"
 
-#include <iostream>
 #include <vector>
 #include "Walnut/Random.h"
 #include <execution>
+#include <set>
+
 #include "hittable_list.h"
 #include "material.h"
 
@@ -67,12 +68,10 @@ void Renderer::Render(const Camera& camera,const hittable& world,const Settings&
 	if (m_FrameIndex == 1)
 		memset(m_AccumulationData, 0, m_FinalImage->GetWidth() * m_FinalImage->GetHeight() * sizeof(glm::vec4));
 	m_FinalImage->SetData(m_ImageData);
-
 	if (settings.ParalelizePerPixel == true) {
 		std::for_each(std::execution::par, m_ImageVerticalIter.begin(), m_ImageVerticalIter.end(),
 			[&world, yDist, xDist, &camera, this, settings](uint32_t y)
 			{
-
 				std::for_each(std::execution::par, m_ImageHorizontalIter.begin(), m_ImageHorizontalIter.end(),
 					[&world, yDist, xDist, &camera, this, y, settings](uint32_t x) {
 						for (int i = 1; i <= settings.samples_per_pixel; i++) {
@@ -95,7 +94,6 @@ void Renderer::Render(const Camera& camera,const hittable& world,const Settings&
 		std::for_each(std::execution::seq, m_ImageVerticalIter.begin(), m_ImageVerticalIter.end(),
 		[&world, yDist, xDist, &camera, this, settings](uint32_t y)
 		{
-
 			std::for_each(std::execution::seq, m_ImageHorizontalIter.begin(), m_ImageHorizontalIter.end(),
 				[&world, yDist, xDist, &camera, this, y, settings](uint32_t x) {
 					for (int i = 1; i <= settings.samples_per_pixel; i++) {

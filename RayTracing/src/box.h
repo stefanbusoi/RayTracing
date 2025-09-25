@@ -1,5 +1,4 @@
-#ifndef BOX_H
-#define BOX_H
+#pragma once
 
 #include "Utilities.h"
 
@@ -45,5 +44,3 @@ bool box::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
         return sides.hit(r, t_min, t_max, rec);
     return false;
 }
-
-#endif
