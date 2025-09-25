@@ -6,20 +6,6 @@ This project aims to explore and demonstrate the fundamentals of ray tracing —
 ![img.png](img.png)
 ---
 
-## Table of Contents
-
-- [Features](#features)
-- [Dependencies & Requirements](#dependencies--requirements)
-- [Installation / Build Instructions](#installation--build-instructions)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Rendering Examples](#rendering-examples)
-- [Performance & Optimization](#performance--optimization)
-- [Future Work](#future-work)
-- [Contributing](#contributing)
-- [License](#license)
-
----
 
 ## Features
 
