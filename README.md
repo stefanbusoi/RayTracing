@@ -58,3 +58,8 @@ make
 - GLFW
 - stb_image
 - GLM
+
+## Resources 
+
+[RayTracing In One Weekend](https://raytracing.github.io/)
+[The Cherno: RayTracing series](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl)
