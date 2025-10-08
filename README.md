@@ -61,5 +61,5 @@ make
 
 ## Resources 
 
-[RayTracing In One Weekend](https://raytracing.github.io/)
-[The Cherno: RayTracing series](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl)
+- [RayTracing In One Weekend](https://raytracing.github.io/)
+- [The Cherno: RayTracing series](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl)
