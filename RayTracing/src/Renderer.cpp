@@ -5,6 +5,7 @@
 #include "Walnut/Random.h"
 #include <execution>
 #include <set>
+#include <string.h>
 
 #include "hittable_list.h"
 #include "material.h"
